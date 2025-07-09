@@ -1,4 +1,9 @@
+coverage.info
+coverage_html/
+exec_cov/
 exec/
+obj/
+obj_cov/
 
 # Prerequisites
 *.d

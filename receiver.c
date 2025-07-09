@@ -7,12 +7,12 @@
 #include <netinet/in.h>
 #include "filechunk.pb-c.h"
 #include <inttypes.h>
+#include "receiver.h"
 
-#define PORT 9000
 #define BUFFER_SIZE 2048
 
-int main(void) {
-  struct sockaddr_in receiver_addr, sender_addr;
+int receive_file(const Config *cfg) {
+    struct sockaddr_in receiver_addr, sender_addr;
   socklen_t addr_len = sizeof(sender_addr);
 
   uint8_t buffer[BUFFER_SIZE];
@@ -24,8 +24,8 @@ int main(void) {
 
   memset(&receiver_addr, 0, sizeof(receiver_addr));
   receiver_addr.sin_family = AF_INET;
-  receiver_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-  receiver_addr.sin_port = htons(PORT);
+  receiver_addr.sin_addr.s_addr = inet_addr(cfg->addr);
+  receiver_addr.sin_port = htons(cfg->port);
 
   if (bind(sockfd, (struct sockaddr *)&receiver_addr, sizeof(receiver_addr)) < 0) {
     fprintf(stderr, "Cannot bind to sender\n");
@@ -33,7 +33,7 @@ int main(void) {
   }
 
   FILE *file = NULL;
-  printf("Receiver listening on port %d...\n", PORT);
+  printf("Receiver listening on port %d...\n", cfg->port);
 
   int total = 0;
   while (1) {
@@ -82,3 +82,4 @@ int main(void) {
   close(sockfd);
   return 0;
 }
+
