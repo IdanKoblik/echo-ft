@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+message FileChunk {
+  string version = 1;
+  string filename = 2;
+  bytes data = 3;
+  int32 size = 4;
+  int32 total_size = 5;
+}
