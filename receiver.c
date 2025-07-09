@@ -66,7 +66,7 @@ int main(void) {
     } else printf("Received chunk (%d bytes)\n", chunk->size);
 
     total += chunk->data.len;
-    if (total >= chunk->total) {
+    if (total >= chunk->total_size) {
       printf("File transfer complete.\n");
       file_chunk__free_unpacked(chunk, NULL);
       break;
