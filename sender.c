@@ -34,12 +34,18 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  char *filename = argv[1];
-  FILE* file = fopen(filename, "rb");
+  char *path = argv[1];
+  FILE* file = fopen(path, "rb");
   if (!file) {
-    fprintf(stderr, "Cannot find file: %s\n", filename);
+    fprintf(stderr, "Cannot find file: %s\n", path);
     return -1;
   }
+
+  char *filename = strrchr(path, '/');
+  if (filename)
+      filename++;
+  else
+    filename = path;
 
   fseek(file, 0, SEEK_END);
   long total_size = ftell(file);
